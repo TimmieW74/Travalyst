@@ -1,33 +1,4 @@
-// Sample legislation data
-        var legislationData = [
-            {
-                title: "EU draft Sustainable Tourism Strategy",
-                docNr: "COM(2024)0125",
-                category: "Tourism", 
-                type: "Communication",
-                status: "Consultation",
-                priority: "high",
-                lastUpdated: "25-07-2025",
-                url: "https://eur-lex.europa.eu/",
-                ojDate: "2024-03-15",
-                entryForce: "N/A",
-                applicationDate: "N/A",
-                currentStage: 0,
-                impact: "This strategy will directly shape how tourism sustainability is measured and reported across the EU. For Travalyst, this represents a critical opportunity to align our platform's metrics with official EU standards.",
-                summary: "The EU's draft Sustainable Tourism Strategy aims to establish a comprehensive framework for measuring and promoting sustainable tourism practices across member states."
-            },
-            {
-                title: "Empowering Consumer Directive",
-                docNr: "COM(2024)0825",
-                category: "Tourism",
-                type: "Directive",
-                status: "Adopted",
-                priority: "high",
-                lastUpdated: "25-07-2025",
-                url: "https://eur-lex.europa.eu/eli/dir/2024/825/oj/eng",
-                ojDate: "2024-04-22",
-                entryForce: "2024-05-27",
-                applicationDate: "2<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -657,7 +628,6 @@
             border-radius: 4px;
         }
 
-        /* Login Gate Styles */
         .login-gate {
             position: fixed;
             top: 0;
@@ -774,7 +744,6 @@
     </style>
 </head>
 <body>
-    <!-- Email Verification Gate -->
     <div id="loginGate" class="login-gate">
         <div class="login-container">
             <div class="login-header">
@@ -791,7 +760,6 @@
         </div>
     </div>
 
-    <!-- Main Application (hidden by default) -->
     <div id="mainApp" class="main-app" style="display: none;">
         <div class="header">
             <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
@@ -802,7 +770,6 @@
                             🔔
                             <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
                         </button>
-                        <!-- Notification Panel -->
                         <div class="notification-panel" id="notificationPanel">
                             <div class="notification-header">
                                 <h3>📧 Notification Settings</h3>
@@ -811,7 +778,6 @@
                                 </div>
                             </div>
                             <div class="legislation-list" id="notificationLegislationList">
-                                <!-- Will be populated by JavaScript -->
                             </div>
                             <div class="notification-actions">
                                 <button class="save-notifications-btn" onclick="saveNotificationSettings()">Save Notification Settings</button>
@@ -824,7 +790,6 @@
         </div>
 
         <div class="container">
-            <!-- Page 1: Legislation List -->
             <div id="listPage" class="page active">
                 <div class="page-header">
                     <h2>EU Legislation Monitor</h2>
@@ -876,7 +841,6 @@
                 </table>
             </div>
 
-            <!-- Page 2: Legislation Detail -->
             <div id="detailPage" class="page">
                 <div class="detail-content">
                     <div class="detail-header">
@@ -894,14 +858,12 @@
                             <h3>Legislative Summary</h3>
                             <div class="expandable-section">
                                 <div class="text-content" id="summaryContent">
-                                    <!-- Content will be populated by JavaScript -->
                                 </div>
                             </div>
                             
                             <div class="expandable-section" style="margin-top: 2rem;">
                                 <h3>Impact Assessment</h3>
                                 <div class="text-content" id="impactContent">
-                                    <!-- Content will be populated by JavaScript -->
                                 </div>
                             </div>
                         </div>
@@ -916,7 +878,6 @@
             </div>
         </div>
 
-        <!-- Modal for Add Legislation -->
         <div id="addModal" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closeModal()">&times;</span>
@@ -930,482 +891,276 @@
         </div>
     </div>
 
-    <script>
-        // Email verification and authentication
-        var VALID_EMAILS = [
-            'tim@lobium.ai',
-            'keesjan.boonen@travalyst.org',
-            'ruveyda@lobium.ai'
-        ];
+<script>
+var VALID_EMAILS = ['tim@lobium.ai', 'keesjan.boonen@travalyst.org', 'ruveyda@lobium.ai'];
+var isAuthenticated = false;
+var legislationData = [
+    {title: "EU draft Sustainable Tourism Strategy", docNr: "COM(2024)0125", category: "Tourism", type: "Communication", status: "Consultation", priority: "high", lastUpdated: "25-07-2025", url: "https://eur-lex.europa.eu/", ojDate: "2024-03-15", entryForce: "N/A", applicationDate: "N/A", currentStage: 0, impact: "This strategy will directly shape how tourism sustainability is measured and reported across the EU.", summary: "The EU draft Sustainable Tourism Strategy aims to establish a comprehensive framework."},
+    {title: "Empowering Consumer Directive", docNr: "COM(2024)0825", category: "Tourism", type: "Directive", status: "Adopted", priority: "high", lastUpdated: "25-07-2025", url: "https://eur-lex.europa.eu/eli/dir/2024/825/oj/eng", ojDate: "2024-04-22", entryForce: "2024-05-27", applicationDate: "2025-05-27", currentStage: 5, impact: "This directive significantly enhances consumer rights in digital marketplaces.", summary: "The Empowering Consumer Directive strengthens consumer protection in digital markets."},
+    {title: "Green Claims Directive", docNr: "COM(2023)0166", category: "Tourism", type: "Directive", status: "EP Committee", priority: "high", lastUpdated: "25-07-2025", url: "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex:52023PC0166", ojDate: "N/A", entryForce: "N/A", applicationDate: "N/A", currentStage: 2, impact: "The Green Claims Directive is perhaps the most directly relevant legislation.", summary: "The Green Claims Directive aims to combat greenwashing by establishing strict requirements."},
+    {title: "Product Environmental Footprint Category Rules", docNr: "COM(2024)0089", category: "Accommodation", type: "Technical Guidance", status: "Proposal", priority: "high", lastUpdated: "25-07-2025", url: "https://eur-lex.europa.eu/", ojDate: "N/A", entryForce: "N/A", applicationDate: "N/A", currentStage: 1, impact: "PEFCR will establish the technical methodology for calculating environmental footprints.", summary: "The Product Environmental Footprint Category Rules provide detailed technical guidance."},
+    {title: "CountEmissions EU", docNr: "COM(2023)0441", category: "Aviation", type: "Regulation", status: "Proposal", priority: "medium", lastUpdated: "25-07-2025", url: "https://eur-lex.europa.eu/legal-content/EN/PIN/?uri=CELEX:52023PC0441", ojDate: "N/A", entryForce: "N/A", applicationDate: "N/A", currentStage: 1, impact: "CountEmissions EU will mandate standardized emissions reporting for aviation.", summary: "CountEmissions EU establishes a comprehensive framework for monitoring emissions."},
+    {title: "RefuelEU Aviation", docNr: "COM(2023)2405", category: "Aviation", type: "Regulation", status: "Adopted", priority: "medium", lastUpdated: "25-07-2025", url: "https://eur-lex.europa.eu/eli/reg/2023/2405/oj/eng", ojDate: "2023-10-31", entryForce: "2024-01-01", applicationDate: "2025-01-01", currentStage: 5, impact: "RefuelEU Aviation mandates increasing use of sustainable aviation fuels.", summary: "RefuelEU Aviation establishes mandatory targets for sustainable aviation fuel uptake."},
+    {title: "Single Digital Booking and Ticketing Regulation", docNr: "COM(2024)0298", category: "Rail", type: "Regulation", status: "Trilogue", priority: "high", lastUpdated: "25-07-2025", url: "https://eur-lex.europa.eu/eli/reg/2022/2065/oj/eng", ojDate: "N/A", entryForce: "N/A", applicationDate: "N/A", currentStage: 4, impact: "The SDBTR will revolutionize rail booking across Europe.", summary: "The Single Digital Booking and Ticketing Regulation aims to create seamless rail booking."},
+    {title: "Data Act", docNr: "COM(2023)2854", category: "Data", type: "Regulation", status: "Adopted", priority: "medium", lastUpdated: "25-07-2025", url: "https://eur-lex.europa.eu/eli/reg/2023/2854/oj/eng", ojDate: "2023-12-11", entryForce: "2024-01-11", applicationDate: "2025-09-12", currentStage: 5, impact: "The Data Act will significantly impact how Travalyst accesses data.", summary: "The Data Act establishes comprehensive rules for data access and use."},
+    {title: "AI Act", docNr: "COM(2024)1689", category: "Data", type: "Regulation", status: "Adopted", priority: "high", lastUpdated: "25-07-2025", url: "https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng", ojDate: "2024-07-12", entryForce: "2024-08-01", applicationDate: "2025-08-02", currentStage: 5, impact: "The AI Act has significant implications for sustainability scoring.", summary: "The AI Act establishes comprehensive regulatory framework for AI systems."},
+    {title: "Taxonomy Regulation", docNr: "COM(2020)0852", category: "Reporting", type: "Regulation", status: "Adopted", priority: "high", lastUpdated: "25-07-2025", url: "https://eur-lex.europa.eu/eli/reg/2020/852/oj/eng", ojDate: "2020-07-22", entryForce: "2020-07-12", applicationDate: "2022-01-01", currentStage: 5, impact: "The EU Taxonomy Regulation is highly relevant to Travalyst mission.", summary: "The EU Taxonomy Regulation establishes a classification system for sustainable activities."}
+];
+var currentLegislation = null;
+var sortDirection = {};
+var notificationSettings = {email: '', selectedLegislation: []};
 
-        var isAuthenticated = false;
+try {
+    var stored = JSON.parse(localStorage.getItem('travalyst-notifications') || '{}');
+    notificationSettings = {email: stored.email || '', selectedLegislation: stored.selectedLegislation || []};
+} catch (e) {
+    console.warn('Failed to load notification settings');
+}
 
-        // Sample legislation data
-        var legislationData = [
-            {
-                title: "EU draft Sustainable Tourism Strategy",
-                docNr: "COM(2024)0125",
-                category: "Tourism", 
-                type: "Communication",
-                status: "Consultation",
-                priority: "high",
-                lastUpdated: "25-07-2025",
-                url: "https://eur-lex.europa.eu/",
-                ojDate: "2024-03-15",
-                entryForce: "N/A",
-                applicationDate: "N/A",
-                currentStage: 0,
-                impact: "This strategy will directly shape how tourism sustainability is measured and reported across the EU. For Travalyst, this represents a critical opportunity to align our platform's metrics with official EU standards.",
-                summary: "The EU's draft Sustainable Tourism Strategy aims to establish a comprehensive framework for measuring and promoting sustainable tourism practices across member states."
-            },
-            {
-                title: "Empowering Consumer Directive",
-                docNr: "COM(2024)0825",
-                category: "Tourism",
-                type: "Directive",
-                status: "Adopted",
-                priority: "high",
-                lastUpdated: "25-07-2025",
-                url: "https://eur-lex.europa.eu/eli/dir/2024/825/oj/eng",
-                ojDate: "2024-04-22",
-                entryForce: "2024-05-27",
-                applicationDate: "2025-05-27",
-                currentStage: 5,
-                impact: "This directive significantly enhances consumer rights in digital marketplaces, directly impacting how Travalyst and travel booking platforms operate.",
-                summary: "The Empowering Consumer Directive strengthens consumer protection in digital markets, with specific provisions affecting online travel platforms."
-            },
-            {
-                title: "Green Claims Directive",
-                docNr: "COM(2023)0166",
-                category: "Tourism",
-                type: "Directive",
-                status: "EP Committee",
-                priority: "high",
-                lastUpdated: "25-07-2025",
-                url: "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex:52023PC0166",
-                ojDate: "N/A",
-                entryForce: "N/A",
-                applicationDate: "N/A",
-                currentStage: 2,
-                impact: "The Green Claims Directive is perhaps the most directly relevant legislation for Travalyst's core mission.",
-                summary: "The Green Claims Directive aims to combat greenwashing by establishing strict requirements for environmental claims made by businesses."
-            },
-            {
-                title: "Product Environmental Footprint Category Rules (PEFCR)",
-                docNr: "COM(2024)0089",
-                category: "Accommodation",
-                type: "Technical Guidance",
-                status: "Proposal",
-                priority: "high",
-                lastUpdated: "25-07-2025",
-                url: "https://eur-lex.europa.eu/",
-                ojDate: "N/A",
-                entryForce: "N/A",
-                applicationDate: "N/A",
-                currentStage: 1,
-                impact: "PEFCR will establish the technical methodology for calculating environmental footprints across product categories.",
-                summary: "The Product Environmental Footprint Category Rules provide detailed technical guidance for calculating environmental impacts."
-            },
-            {
-                title: "CountEmissions EU",
-                docNr: "COM(2023)0441",
-                category: "Aviation",
-                type: "Regulation",
-                status: "Proposal",
-                priority: "medium",
-                lastUpdated: "25-07-2025",
-                url: "https://eur-lex.europa.eu/legal-content/EN/PIN/?uri=CELEX:52023PC0441",
-                ojDate: "N/A",
-                entryForce: "N/A",
-                applicationDate: "N/A",
-                currentStage: 1,
-                impact: "CountEmissions EU will mandate standardized emissions reporting for aviation.",
-                summary: "CountEmissions EU establishes a comprehensive framework for monitoring, reporting, and verifying greenhouse gas emissions from aviation activities."
-            },
-            {
-                title: "RefuelEU Aviation",
-                docNr: "COM(2023)2405",
-                category: "Aviation",
-                type: "Regulation",
-                status: "Adopted",
-                priority: "medium",
-                lastUpdated: "25-07-2025",
-                url: "https://eur-lex.europa.eu/eli/reg/2023/2405/oj/eng",
-                ojDate: "2023-10-31",
-                entryForce: "2024-01-01",
-                applicationDate: "2025-01-01",
-                currentStage: 5,
-                impact: "RefuelEU Aviation mandates increasing use of sustainable aviation fuels (SAF).",
-                summary: "RefuelEU Aviation establishes mandatory targets for sustainable aviation fuel (SAF) uptake at EU airports."
-            },
-            {
-                title: "Single Digital Booking and Ticketing Regulation (SDBTR)",
-                docNr: "COM(2024)0298",
-                category: "Rail",
-                type: "Regulation",
-                status: "Trilogue",
-                priority: "high",
-                lastUpdated: "25-07-2025",
-                url: "https://eur-lex.europa.eu/eli/reg/2022/2065/oj/eng",
-                ojDate: "N/A",
-                entryForce: "N/A",
-                applicationDate: "N/A",
-                currentStage: 4,
-                impact: "The SDBTR will revolutionize rail booking across Europe.",
-                summary: "The Single Digital Booking and Ticketing Regulation aims to create a seamless, integrated booking experience for rail travel across the EU."
-            },
-            {
-                title: "Data Act",
-                docNr: "COM(2023)2854",
-                category: "Data",
-                type: "Regulation",
-                status: "Adopted",
-                priority: "medium",
-                lastUpdated: "25-07-2025",
-                url: "https://eur-lex.europa.eu/eli/reg/2023/2854/oj/eng",
-                ojDate: "2023-12-11",
-                entryForce: "2024-01-11",
-                applicationDate: "2025-09-12",
-                currentStage: 5,
-                impact: "The Data Act will significantly impact how Travalyst accesses and processes travel-related data.",
-                summary: "The Data Act establishes comprehensive rules for data access and use across the EU digital economy."
-            },
-            {
-                title: "AI Act",
-                docNr: "COM(2024)1689",
-                category: "Data",
-                type: "Regulation",
-                status: "Adopted",
-                priority: "high",
-                lastUpdated: "25-07-2025",
-                url: "https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng",
-                ojDate: "2024-07-12",
-                entryForce: "2024-08-01",
-                applicationDate: "2025-08-02",
-                currentStage: 5,
-                impact: "The AI Act has significant implications for Travalyst's use of AI in sustainability scoring.",
-                summary: "The AI Act establishes comprehensive regulatory framework for artificial intelligence systems within the EU."
-            },
-            {
-                title: "Taxonomy Regulation",
-                docNr: "COM(2020)0852",
-                category: "Reporting",
-                type: "Regulation",
-                status: "Adopted",
-                priority: "high",
-                lastUpdated: "25-07-2025",
-                url: "https://eur-lex.europa.eu/eli/reg/2020/852/oj/eng",
-                ojDate: "2020-07-22",
-                entryForce: "2020-07-12",
-                applicationDate: "2022-01-01",
-                currentStage: 5,
-                impact: "The EU Taxonomy Regulation is highly relevant to Travalyst's mission.",
-                summary: "The EU Taxonomy Regulation establishes a classification system for environmentally sustainable economic activities."
-            }
-        ];
+function showLoginGate() {
+    document.getElementById('loginGate').style.display = 'flex';
+    document.getElementById('mainApp').style.display = 'none';
+}
 
-        // Global variables
-        var currentLegislation = null;
-        var sortDirection = {};
-        var notificationSettings = {
-            email: '',
-            selectedLegislation: []
-        };
+function showMainApp() {
+    document.getElementById('loginGate').style.display = 'none';
+    document.getElementById('mainApp').style.display = 'block';
+    isAuthenticated = true;
+    initializePage();
+}
 
-        // Initialize from localStorage
-        try {
-            var stored = JSON.parse(localStorage.getItem('travalyst-notifications') || '{}');
-            notificationSettings = {
-                email: stored.email || '',
-                selectedLegislation: stored.selectedLegislation || []
-            };
-        } catch (e) {
-            console.warn('Failed to load notification settings from localStorage');
-        }
+function handleLogin(event) {
+    event.preventDefault();
+    var emailInput = document.getElementById('emailInput');
+    var email = emailInput.value.trim().toLowerCase();
+    var errorMessage = document.getElementById('errorMessage');
+    
+    if (VALID_EMAILS.indexOf(email) !== -1) {
+        localStorage.setItem('travalyst-auth-email', email);
+        localStorage.setItem('travalyst-auth-timestamp', Date.now().toString());
+        errorMessage.style.display = 'none';
+        showMainApp();
+    } else {
+        errorMessage.style.display = 'block';
+        emailInput.value = '';
+        emailInput.focus();
+    }
+}
 
-        // Authentication functions
-        function showLoginGate() {
-            document.getElementById('loginGate').style.display = 'flex';
-            document.getElementById('mainApp').style.display = 'none';
-        }
+function logout() {
+    localStorage.removeItem('travalyst-auth-email');
+    localStorage.removeItem('travalyst-auth-timestamp');
+    isAuthenticated = false;
+    showLoginGate();
+}
 
-        function showMainApp() {
-            document.getElementById('loginGate').style.display = 'none';
-            document.getElementById('mainApp').style.display = 'block';
+function checkAuthentication() {
+    var storedEmail = localStorage.getItem('travalyst-auth-email');
+    var authTimestamp = localStorage.getItem('travalyst-auth-timestamp');
+    
+    if (storedEmail && authTimestamp) {
+        var twentyFourHours = 24 * 60 * 60 * 1000;
+        var isStillValid = (Date.now() - parseInt(authTimestamp)) < twentyFourHours;
+        
+        if (isStillValid && VALID_EMAILS.indexOf(storedEmail.toLowerCase()) !== -1) {
             isAuthenticated = true;
-            initializePage();
-        }
-
-        function handleLogin(event) {
-            event.preventDefault();
-            
-            var emailInput = document.getElementById('emailInput');
-            var email = emailInput.value.trim().toLowerCase();
-            var errorMessage = document.getElementById('errorMessage');
-            
-            console.log('Attempted login with email:', email);
-            console.log('Valid emails:', VALID_EMAILS);
-            console.log('Email found in valid list:', VALID_EMAILS.indexOf(email) !== -1);
-            
-            if (VALID_EMAILS.indexOf(email) !== -1) {
-                console.log('Access granted for:', email);
-                localStorage.setItem('travalyst-auth-email', email);
-                localStorage.setItem('travalyst-auth-timestamp', Date.now().toString());
-                errorMessage.style.display = 'none';
-                showMainApp();
-            } else {
-                console.log('Access denied for:', email);
-                errorMessage.style.display = 'block';
-                emailInput.value = '';
-                emailInput.focus();
-            }
-        }
-
-        function logout() {
+            showMainApp();
+            return;
+        } else {
             localStorage.removeItem('travalyst-auth-email');
             localStorage.removeItem('travalyst-auth-timestamp');
-            isAuthenticated = false;
-            showLoginGate();
         }
+    }
+    
+    showLoginGate();
+}
 
-        function checkAuthentication() {
-            var storedEmail = localStorage.getItem('travalyst-auth-email');
-            var authTimestamp = localStorage.getItem('travalyst-auth-timestamp');
-            
-            console.log('Checking authentication:', storedEmail, authTimestamp);
-            
-            if (storedEmail && authTimestamp) {
-                var twentyFourHours = 24 * 60 * 60 * 1000;
-                var isStillValid = (Date.now() - parseInt(authTimestamp)) < twentyFourHours;
-                
-                console.log('Auth still valid:', isStillValid);
-                
-                if (isStillValid && VALID_EMAILS.indexOf(storedEmail.toLowerCase()) !== -1) {
-                    console.log('Auto-login successful for:', storedEmail);
-                    isAuthenticated = true;
-                    showMainApp();
-                    return;
-                } else {
-                    console.log('Clearing expired auth');
-                    localStorage.removeItem('travalyst-auth-email');
-                    localStorage.removeItem('travalyst-auth-timestamp');
-                }
-            }
-            
-            console.log('Showing login gate');
-            showLoginGate();
+function toggleNotificationPanel() {
+    var panel = document.getElementById('notificationPanel');
+    if (panel.classList.contains('show')) {
+        panel.classList.remove('show');
+    } else {
+        panel.classList.add('show');
+        populateNotificationPanel();
+    }
+}
+
+function populateNotificationPanel() {
+    var emailInput = document.getElementById('notificationEmail');
+    var legislationList = document.getElementById('notificationLegislationList');
+    emailInput.value = notificationSettings.email || '';
+    
+    legislationList.innerHTML = legislationData.map(function(item) {
+        var isChecked = notificationSettings.selectedLegislation.indexOf(item.docNr) !== -1;
+        return '<div class="legislation-item"><input type="checkbox" id="notify-' + item.docNr + '" class="legislation-checkbox"' + (isChecked ? ' checked' : '') + ' onchange="updateLegislationSelection(\'' + item.docNr + '\', this.checked)"><div class="legislation-info" onclick="toggleCheckbox(\'notify-' + item.docNr + '\')"><div class="legislation-title">' + item.title + '</div><div class="legislation-meta">' + item.docNr + ' • ' + item.category + ' • ' + item.status + '</div></div></div>';
+    }).join('');
+}
+
+function updateLegislationSelection(docNr, isSelected) {
+    if (isSelected) {
+        if (notificationSettings.selectedLegislation.indexOf(docNr) === -1) {
+            notificationSettings.selectedLegislation.push(docNr);
         }
-
-        // Notification functions
-        function toggleNotificationPanel() {
-            var panel = document.getElementById('notificationPanel');
-            
-            if (panel.classList.contains('show')) {
-                panel.classList.remove('show');
-            } else {
-                panel.classList.add('show');
-                populateNotificationPanel();
-            }
+    } else {
+        var index = notificationSettings.selectedLegislation.indexOf(docNr);
+        if (index !== -1) {
+            notificationSettings.selectedLegislation.splice(index, 1);
         }
+    }
+    updateNotificationBadge();
+}
 
-        function populateNotificationPanel() {
-            var emailInput = document.getElementById('notificationEmail');
-            var legislationList = document.getElementById('notificationLegislationList');
-            
-            emailInput.value = notificationSettings.email || '';
-            
-            legislationList.innerHTML = legislationData.map(function(item) {
-                var isChecked = notificationSettings.selectedLegislation.indexOf(item.docNr) !== -1;
-                return '<div class="legislation-item">' +
-                    '<input type="checkbox" id="notify-' + item.docNr + '" class="legislation-checkbox"' +
-                    (isChecked ? ' checked' : '') + ' onchange="updateLegislationSelection(\'' + item.docNr + '\', this.checked)">' +
-                    '<div class="legislation-info" onclick="toggleCheckbox(\'notify-' + item.docNr + '\')">' +
-                    '<div class="legislation-title">' + item.title + '</div>' +
-                    '<div class="legislation-meta">' + item.docNr + ' • ' + item.category + ' • ' + item.status + '</div>' +
-                    '</div></div>';
-            }).join('');
+function toggleCheckbox(checkboxId) {
+    var checkbox = document.getElementById(checkboxId);
+    if (checkbox) {
+        checkbox.checked = !checkbox.checked;
+        var docNr = checkboxId.replace('notify-', '');
+        updateLegislationSelection(docNr, checkbox.checked);
+    }
+}
+
+function saveNotificationSettings() {
+    var emailInput = document.getElementById('notificationEmail');
+    var email = emailInput.value.trim();
+    
+    if (notificationSettings.selectedLegislation.length > 0 && (!email || !isValidEmail(email))) {
+        alert('Please enter a valid email address to receive notifications');
+        emailInput.focus();
+        return;
+    }
+    
+    notificationSettings.email = email;
+    localStorage.setItem('travalyst-notifications', JSON.stringify(notificationSettings));
+    
+    var count = notificationSettings.selectedLegislation.length;
+    if (count > 0 && email) {
+        alert('Success! You will receive email notifications for ' + count + ' legislation' + (count === 1 ? '' : 's') + ' at ' + email);
+    } else if (count === 0) {
+        alert('Notification settings cleared - you will not receive any email notifications');
+    }
+    
+    document.getElementById('notificationPanel').classList.remove('show');
+    updateNotificationBadge();
+}
+
+function updateNotificationBadge() {
+    var badge = document.getElementById('notificationBadge');
+    var count = notificationSettings.selectedLegislation.length;
+    
+    if (count > 0) {
+        badge.textContent = count;
+        badge.style.display = 'flex';
+    } else {
+        badge.style.display = 'none';
+    }
+}
+
+function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function renderLegislationTable() {
+    var tbody = document.getElementById('legislationBody');
+    var searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    var categoryFilter = document.getElementById('categoryFilter').value;
+    var statusFilter = document.getElementById('statusFilter').value;
+
+    var filteredData = legislationData.filter(function(item) {
+        var matchesSearch = !searchTerm || item.title.toLowerCase().indexOf(searchTerm) !== -1 || item.docNr.toLowerCase().indexOf(searchTerm) !== -1 || item.category.toLowerCase().indexOf(searchTerm) !== -1;
+        var matchesCategory = !categoryFilter || item.category === categoryFilter;
+        var matchesStatus = !statusFilter || item.status === statusFilter;
+        return matchesSearch && matchesCategory && matchesStatus;
+    });
+
+    if (tbody) {
+        tbody.innerHTML = filteredData.map(function(item) {
+            return '<tr onclick="showDetailPage(\'' + item.docNr + '\')"><td><div><strong>' + item.title + '</strong></div></td><td>' + item.docNr + '</td><td>' + item.category + '</td><td>' + item.type + '</td><td class="status-column"><span class="status-badge">' + item.status + '</span></td><td><span class="priority-badge priority-' + item.priority + '">' + item.priority + '</span></td><td class="date-column">' + item.lastUpdated + '</td></tr>';
+        }).join('');
+    }
+}
+
+function setupEventListeners() {
+    var searchInput = document.getElementById('searchInput');
+    var categoryFilter = document.getElementById('categoryFilter');
+    var statusFilter = document.getElementById('statusFilter');
+
+    if (searchInput) searchInput.addEventListener('input', renderLegislationTable);
+    if (categoryFilter) categoryFilter.addEventListener('change', renderLegislationTable);
+    if (statusFilter) statusFilter.addEventListener('change', renderLegislationTable);
+}
+
+function sortTable(columnIndex) {
+    // Sorting functionality placeholder
+}
+
+function showDetailPage(docNr) {
+    // Detail page functionality placeholder
+}
+
+function showListPage() {
+    document.getElementById('detailPage').classList.remove('active');
+    document.getElementById('listPage').classList.add('active');
+}
+
+function openModal() {
+    document.getElementById('addModal').style.display = 'block';
+}
+
+function closeModal() {
+    document.getElementById('addModal').style.display = 'none';
+    document.getElementById('comUrl').value = '';
+}
+
+function addLegislation() {
+    var url = document.getElementById('comUrl').value;
+    if (url) {
+        alert('Legislation would be added from: ' + url);
+        closeModal();
+    } else {
+        alert('Please enter a valid COM proposal URL');
+    }
+}
+
+function exportToWord() {
+    alert('Export to Word functionality would be implemented here');
+}
+
+function exportToExcel() {
+    alert('Export to Excel functionality would be implemented here');
+}
+
+function toggleText(type) {
+    // Text expansion functionality placeholder
+}
+
+function initializePage() {
+    renderLegislationTable();
+    setupEventListeners();
+    updateNotificationBadge();
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+        var loginForm = document.getElementById('loginForm');
+        if (loginForm) {
+            loginForm.addEventListener('submit', handleLogin);
         }
+        checkAuthentication();
+    });
+} else {
+    var loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', handleLogin);
+    }
+    checkAuthentication();
+}
 
-        function updateLegislationSelection(docNr, isSelected) {
-            if (isSelected) {
-                if (notificationSettings.selectedLegislation.indexOf(docNr) === -1) {
-                    notificationSettings.selectedLegislation.push(docNr);
-                }
-            } else {
-                var index = notificationSettings.selectedLegislation.indexOf(docNr);
-                if (index !== -1) {
-                    notificationSettings.selectedLegislation.splice(index, 1);
-                }
-            }
-            updateNotificationBadge();
-        }
-
-        function toggleCheckbox(checkboxId) {
-            var checkbox = document.getElementById(checkboxId);
-            if (checkbox) {
-                checkbox.checked = !checkbox.checked;
-                var docNr = checkboxId.replace('notify-', '');
-                updateLegislationSelection(docNr, checkbox.checked);
-            }
-        }
-
-        function saveNotificationSettings() {
-            var emailInput = document.getElementById('notificationEmail');
-            var email = emailInput.value.trim();
-            
-            if (notificationSettings.selectedLegislation.length > 0 && (!email || !isValidEmail(email))) {
-                alert('Please enter a valid email address to receive notifications');
-                emailInput.focus();
-                return;
-            }
-            
-            notificationSettings.email = email;
-            localStorage.setItem('travalyst-notifications', JSON.stringify(notificationSettings));
-            
-            var count = notificationSettings.selectedLegislation.length;
-            if (count > 0 && email) {
-                alert('Success! You\'ll receive email notifications for ' + count + ' legislation' + (count === 1 ? '' : 's') + ' at ' + email);
-            } else if (count === 0) {
-                alert('Notification settings cleared - you will not receive any email notifications');
-            }
-            
-            document.getElementById('notificationPanel').classList.remove('show');
-            updateNotificationBadge();
-        }
-
-        function updateNotificationBadge() {
-            var badge = document.getElementById('notificationBadge');
-            var count = notificationSettings.selectedLegislation.length;
-            
-            if (count > 0) {
-                badge.textContent = count;
-                badge.style.display = 'flex';
-            } else {
-                badge.style.display = 'none';
-            }
-        }
-
-        function isValidEmail(email) {
-            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-        }
-
-        // Table functions
-        function renderLegislationTable() {
-            var tbody = document.getElementById('legislationBody');
-            var searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            var categoryFilter = document.getElementById('categoryFilter').value;
-            var statusFilter = document.getElementById('statusFilter').value;
-
-            var filteredData = legislationData.filter(function(item) {
-                var matchesSearch = !searchTerm || 
-                    item.title.toLowerCase().indexOf(searchTerm) !== -1 ||
-                    item.docNr.toLowerCase().indexOf(searchTerm) !== -1 ||
-                    item.category.toLowerCase().indexOf(searchTerm) !== -1;
-                var matchesCategory = !categoryFilter || item.category === categoryFilter;
-                var matchesStatus = !statusFilter || item.status === statusFilter;
-                
-                return matchesSearch && matchesCategory && matchesStatus;
-            });
-
-            if (tbody) {
-                tbody.innerHTML = filteredData.map(function(item) {
-                    return '<tr onclick="showDetailPage(\'' + item.docNr + '\')">' +
-                        '<td><div><strong>' + item.title + '</strong></div></td>' +
-                        '<td>' + item.docNr + '</td>' +
-                        '<td>' + item.category + '</td>' +
-                        '<td>' + item.type + '</td>' +
-                        '<td class="status-column"><span class="status-badge">' + item.status + '</span></td>' +
-                        '<td><span class="priority-badge priority-' + item.priority + '">' + item.priority + '</span></td>' +
-                        '<td class="date-column">' + item.lastUpdated + '</td>' +
-                        '</tr>';
-                }).join('');
-            }
-        }
-
-        function setupEventListeners() {
-            var searchInput = document.getElementById('searchInput');
-            var categoryFilter = document.getElementById('categoryFilter');
-            var statusFilter = document.getElementById('statusFilter');
-
-            if (searchInput) searchInput.addEventListener('input', renderLegislationTable);
-            if (categoryFilter) categoryFilter.addEventListener('change', renderLegislationTable);
-            if (statusFilter) statusFilter.addEventListener('change', renderLegislationTable);
-        }
-
-        function sortTable(columnIndex) {
-            // Sorting implementation
-        }
-
-        function showDetailPage(docNr) {
-            // Detail page implementation
-        }
-
-        function showListPage() {
-            document.getElementById('detailPage').classList.remove('active');
-            document.getElementById('listPage').classList.add('active');
-        }
-
-        function openModal() {
-            document.getElementById('addModal').style.display = 'block';
-        }
-
-        function closeModal() {
-            document.getElementById('addModal').style.display = 'none';
-            document.getElementById('comUrl').value = '';
-        }
-
-        function addLegislation() {
-            var url = document.getElementById('comUrl').value;
-            if (url) {
-                alert('Legislation would be added from: ' + url + '\n\n(This is a prototype)');
-                closeModal();
-            } else {
-                alert('Please enter a valid COM proposal URL');
-            }
-        }
-
-        function exportToWord() {
-            alert('Export to Word functionality would be implemented here');
-        }
-
-        function exportToExcel() {
-            alert('Export to Excel functionality would be implemented here');
-        }
-
-        function toggleText(type) {
-            // Text expansion implementation
-        }
-
-        function initializePage() {
-            renderLegislationTable();
-            setupEventListeners();
-            updateNotificationBadge();
-        }
-
-        // Initialize when page loads
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', function() {
-                var loginForm = document.getElementById('loginForm');
-                if (loginForm) {
-                    loginForm.addEventListener('submit', handleLogin);
-                }
-                checkAuthentication();
-            });
-        } else {
-            var loginForm = document.getElementById('loginForm');
-            if (loginForm) {
-                loginForm.addEventListener('submit', handleLogin);
-            }
-            checkAuthentication();
-        }
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            var modal = document.getElementById('addModal');
-            if (event.target === modal) {
-                closeModal();
-            }
-        };
-    </script>
+window.onclick = function(event) {
+    var modal = document.getElementById('addModal');
+    if (event.target === modal) {
+        closeModal();
+    }
+};
+</script>
 </body>
 </html>
