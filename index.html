@@ -1,4 +1,33 @@
-<!DOCTYPE html>
+// Sample legislation data
+        var legislationData = [
+            {
+                title: "EU draft Sustainable Tourism Strategy",
+                docNr: "COM(2024)0125",
+                category: "Tourism", 
+                type: "Communication",
+                status: "Consultation",
+                priority: "high",
+                lastUpdated: "25-07-2025",
+                url: "https://eur-lex.europa.eu/",
+                ojDate: "2024-03-15",
+                entryForce: "N/A",
+                applicationDate: "N/A",
+                currentStage: 0,
+                impact: "This strategy will directly shape how tourism sustainability is measured and reported across the EU. For Travalyst, this represents a critical opportunity to align our platform's metrics with official EU standards.",
+                summary: "The EU's draft Sustainable Tourism Strategy aims to establish a comprehensive framework for measuring and promoting sustainable tourism practices across member states."
+            },
+            {
+                title: "Empowering Consumer Directive",
+                docNr: "COM(2024)0825",
+                category: "Tourism",
+                type: "Directive",
+                status: "Adopted",
+                priority: "high",
+                lastUpdated: "25-07-2025",
+                url: "https://eur-lex.europa.eu/eli/dir/2024/825/oj/eng",
+                ojDate: "2024-04-22",
+                entryForce: "2024-05-27",
+                applicationDate: "2<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -999,20 +1028,27 @@
             var storedEmail = localStorage.getItem('travalyst-auth-email');
             var authTimestamp = localStorage.getItem('travalyst-auth-timestamp');
             
+            console.log('Checking authentication:', storedEmail, authTimestamp);
+            
             if (storedEmail && authTimestamp) {
                 var twentyFourHours = 24 * 60 * 60 * 1000;
                 var isStillValid = (Date.now() - parseInt(authTimestamp)) < twentyFourHours;
                 
+                console.log('Auth still valid:', isStillValid);
+                
                 if (isStillValid && VALID_EMAILS.indexOf(storedEmail.toLowerCase()) !== -1) {
+                    console.log('Auto-login successful for:', storedEmail);
                     isAuthenticated = true;
                     showMainApp();
                     return;
                 } else {
+                    console.log('Clearing expired auth');
                     localStorage.removeItem('travalyst-auth-email');
                     localStorage.removeItem('travalyst-auth-timestamp');
                 }
             }
             
+            console.log('Showing login gate');
             showLoginGate();
         }
 
