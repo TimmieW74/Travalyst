@@ -25,12 +25,166 @@
             padding: 1rem 2rem;
             border-bottom: 1px solid #e1e8ed;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
         }
 
         .header h1 {
             color: rgb(13, 35, 31);
             font-size: 1.5rem;
             font-weight: 600;
+        }
+
+        .notification-bell {
+            position: relative;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+
+        .notification-bell:hover {
+            background: rgba(246, 243, 234, 0.5);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #dc2626;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .notification-panel {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 400px;
+            max-height: 500px;
+            background: white;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            z-index: 1000;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .notification-panel.show {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .notification-header {
+            background: rgba(246, 243, 234, 0.5);
+            padding: 1rem;
+            border-bottom: 1px solid #e1e8ed;
+        }
+
+        .notification-header h3 {
+            color: #00878A;
+            margin: 0 0 0.5rem 0;
+            font-size: 1.1rem;
+        }
+
+        .email-section {
+            padding: 0.5rem 0;
+        }
+
+        .email-section input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #d1d9e0;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .email-section input:focus {
+            outline: none;
+            border-color: #00878A;
+        }
+
+        .legislation-list {
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 0.5rem;
+        }
+
+        .legislation-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 0.75rem;
+            border-bottom: 1px solid #f0f0f0;
+            gap: 0.75rem;
+        }
+
+        .legislation-item:last-child {
+            border-bottom: none;
+        }
+
+        .legislation-checkbox {
+            margin-top: 0.2rem;
+            cursor: pointer;
+        }
+
+        .legislation-info {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .legislation-title {
+            font-weight: 500;
+            color: rgb(13, 35, 31);
+            font-size: 0.9rem;
+            line-height: 1.3;
+        }
+
+        .legislation-meta {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.2rem;
+        }
+
+        .notification-actions {
+            padding: 1rem;
+            border-top: 1px solid #e1e8ed;
+            background: rgba(246, 243, 234, 0.3);
+        }
+
+        .save-notifications-btn {
+            background: #00878A;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        .save-notifications-btn:hover {
+            background: #006b6e;
+        }
+
+        .save-notifications-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
         }
 
         .container {
@@ -199,97 +353,6 @@
             white-space: nowrap;
         }
 
-        .notification-btn {
-            background: none;
-            border: 1px solid #00878A;
-            color: #00878A;
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            white-space: nowrap;
-        }
-
-        .notification-btn:hover {
-            background: #00878A;
-            color: white;
-        }
-
-        .notification-btn.subscribed {
-            background: #199D6E;
-            border-color: #199D6E;
-            color: white;
-        }
-
-        .notification-btn.subscribed:hover {
-            background: #147a59;
-        }
-
-        .email-form {
-            display: none;
-            margin-top: 0.5rem;
-            padding: 0.75rem;
-            background: rgba(246, 243, 234, 0.8);
-            border: 1px solid #e1e8ed;
-            border-radius: 4px;
-            animation: slideDown 0.3s ease-out;
-        }
-
-        .email-form.show {
-            display: block;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .email-form input {
-            width: 200px;
-            padding: 0.5rem;
-            border: 1px solid #d1d9e0;
-            border-radius: 4px;
-            margin-right: 0.5rem;
-            font-size: 0.85rem;
-        }
-
-        .email-form button {
-            background: #00878A;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.85rem;
-        }
-
-        .email-form button:hover {
-            background: #006b6e;
-        }
-
-        .unsubscribe-link {
-            color: #666;
-            font-size: 0.7rem;
-            margin-left: 0.5rem;
-            cursor: pointer;
-            text-decoration: underline;
-        }
-
-        .unsubscribe-link:hover {
-            color: #333;
-        }
-
-        .notification-detail {
-            margin-top: 0.5rem;
-        }
-
         .legislation-table tr {
             cursor: pointer;
             transition: background 0.2s;
@@ -386,10 +449,6 @@
             font-weight: 600;
         }
 
-        .impact-section {
-            grid-column: 1 / -1;
-        }
-
         .info-block {
             background: rgba(246, 243, 234, 0.5);
             border: 1px solid #e1e8ed;
@@ -420,14 +479,6 @@
             color: rgb(13, 35, 31);
             display: inline-block;
             width: 120px;
-        }
-
-        .timeline-container {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            border: 1px solid #e1e8ed;
-            margin-bottom: 2rem;
         }
 
         .timeline {
@@ -483,6 +534,17 @@
             100% { box-shadow: 0 0 0 0 rgba(0, 135, 138, 0); }
         }
 
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .timeline-labels {
             display: flex;
             justify-content: space-between;
@@ -498,20 +560,6 @@
 
         .timeline-label.current {
             color: #00878A;
-            font-weight: 600;
-        }
-
-        .expandable-text {
-            background: rgba(246, 243, 234, 0.5);
-            border: 1px solid #e1e8ed;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .expandable-text h3 {
-            color: #00878A;
-            margin-bottom: 1rem;
             font-weight: 600;
         }
 
@@ -601,137 +649,35 @@
                 display: none;
             }
         }
-
-        /* Login Gate Styles */
-        .login-gate {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgb(13, 35, 31) 0%, #00878A 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-        }
-
-        .login-container {
-            background: white;
-            padding: 3rem;
-            border-radius: 12px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            max-width: 400px;
-            width: 90%;
-            text-align: center;
-        }
-
-        .login-header h1 {
-            color: rgb(13, 35, 31);
-            margin-bottom: 0.5rem;
-            font-size: 1.8rem;
-        }
-
-        .login-header p {
-            color: #666;
-            margin-bottom: 2rem;
-            line-height: 1.5;
-        }
-
-        .login-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .login-form input {
-            padding: 1rem;
-            border: 2px solid #e1e8ed;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-
-        .login-form input:focus {
-            outline: none;
-            border-color: #00878A;
-            box-shadow: 0 0 0 3px rgba(0, 135, 138, 0.1);
-        }
-
-        .login-btn {
-            background: rgb(13, 35, 31);
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .login-btn:hover {
-            background: rgb(10, 28, 25);
-        }
-
-        .error-message {
-            background: #fee2e2;
-            color: #dc2626;
-            padding: 1rem;
-            border-radius: 6px;
-            margin-top: 1rem;
-            font-size: 0.9rem;
-        }
-
-        .logout-btn {
-            background: #666666;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: background 0.2s;
-        }
-
-        .logout-btn:hover {
-            background: #555555;
-        }
-
-        .main-app {
-            min-height: 100vh;
-        }
     </style>
 </head>
 <body>
-    <!-- Email Verification Gate -->
-    <div id="loginGate" class="login-gate">
-        <div class="login-container">
-            <div class="login-header">
-                <h1>🔒 Access Required</h1>
-                <p>Please verify your email to access the Travalyst EU Regulatory Monitor</p>
-            </div>
-    </div>
-            <form id="loginForm" class="login-form">
-                <input type="email" id="emailInput" placeholder="Enter your email address" required>
-                <button type="submit" class="login-btn">Verify Access</button>
-            </form>
-            <div id="errorMessage" class="error-message" style="display: none;">
-                ❌ Access denied. Please contact your administrator for access.
+    <div class="header">
+        <h1>Travalyst EU Regulatory Monitor</h1>
+        <div style="position: relative;">
+            <button class="notification-bell" onclick="toggleNotificationPanel()">
+                🔔
+                <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+            </button>
+            <!-- Notification Panel -->
+            <div class="notification-panel" id="notificationPanel">
+                <div class="notification-header">
+                    <h3>📧 Notification Settings</h3>
+                    <div class="email-section">
+                        <input type="email" id="notificationEmail" placeholder="Enter your email address">
+                    </div>
+                </div>
+                <div class="legislation-list" id="notificationLegislationList">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+                <div class="notification-actions">
+                    <button class="save-notifications-btn" onclick="saveNotificationSettings()">Save Notification Settings</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Main Application (hidden by default) -->
-    <div id="mainApp" class="main-app" style="display: none;">
-        <div class="header">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <h1>Travalyst EU Regulatory Monitor</h1>
-                <button class="logout-btn" onclick="logout()">Logout</button>
-            </div>
-        </div>
-
-        <div class="container">
+    <div class="container">
         <!-- Page 1: Legislation List -->
         <div id="listPage" class="page active">
             <div class="page-header">
@@ -837,6 +783,768 @@
         </div>
     </div>
 
-    <script src="app.js"></script>
+    <script>
+        (function() {
+            'use strict';
+
+            // Sample legislation data
+            const legislationData = [
+                {
+                    title: "EU draft Sustainable Tourism Strategy",
+                    docNr: "COM(2024)0125",
+                    category: "Tourism", 
+                    type: "Communication",
+                    status: "Consultation",
+                    priority: "high",
+                    lastUpdated: "25-07-2025",
+                    url: "https://eur-lex.europa.eu/",
+                    ojDate: "2024-03-15",
+                    entryForce: "N/A",
+                    applicationDate: "N/A",
+                    currentStage: 0,
+                    impact: "This strategy will directly shape how tourism sustainability is measured and reported across the EU. For Travalyst, this represents a critical opportunity to align our platform's metrics with official EU standards. The strategy will likely mandate specific sustainability indicators that tourism companies must report, which aligns perfectly with our mission to provide transparent, comparable sustainability data. Implementation could create new data requirements that our platform is uniquely positioned to address, potentially opening significant market opportunities in the EU tourism sector.",
+                    summary: "The EU's draft Sustainable Tourism Strategy aims to establish a comprehensive framework for measuring and promoting sustainable tourism practices across member states. The strategy focuses on creating standardized metrics for environmental impact, social responsibility, and economic sustainability in tourism. Key elements include mandatory sustainability reporting for large tourism operators, establishment of EU-wide certification schemes, and integration with the European Green Deal objectives. The strategy also proposes creating a European Tourism Sustainability Observatory to monitor progress and share best practices across the industry."
+                },
+                {
+                    title: "Empowering Consumer Directive",
+                    docNr: "COM(2024)0825",
+                    category: "Tourism",
+                    type: "Directive",
+                    status: "Adopted",
+                    priority: "high",
+                    lastUpdated: "25-07-2025",
+                    url: "https://eur-lex.europa.eu/eli/dir/2024/825/oj/eng",
+                    ojDate: "2024-04-22",
+                    entryForce: "2024-05-27",
+                    applicationDate: "2025-05-27",
+                    currentStage: 5,
+                    impact: "This directive significantly enhances consumer rights in digital marketplaces, directly impacting how Travalyst and travel booking platforms operate. The directive requires clearer disclosure of sustainability claims, algorithmic transparency in search rankings, and stronger protection against greenwashing. This creates both challenges and opportunities: while compliance costs increase, the directive validates our approach to transparent sustainability reporting and could disadvantage less transparent competitors. Our platform's focus on verified sustainability data positions us well to help travel companies meet these new transparency requirements.",
+                    summary: "The Empowering Consumer Directive strengthens consumer protection in digital markets, with specific provisions affecting online travel platforms. Key requirements include mandatory disclosure of sustainability claims with verifiable evidence, transparency in how search results are ranked and personalized, and prohibition of dark patterns that mislead consumers about environmental impact. The directive also establishes stronger rights for consumers to access and port their data, and creates new obligations for platforms to clearly distinguish between organic and promoted content, particularly relevant for travel comparison sites."
+                },
+                {
+                    title: "Green Claims Directive",
+                    docNr: "COM(2023)0166",
+                    category: "Tourism",
+                    type: "Directive",
+                    status: "EP Committee",
+                    priority: "high",
+                    lastUpdated: "25-07-2025",
+                    url: "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex:52023PC0166",
+                    ojDate: "N/A",
+                    entryForce: "N/A",
+                    applicationDate: "N/A",
+                    currentStage: 2,
+                    impact: "The Green Claims Directive is perhaps the most directly relevant legislation for Travalyst's core mission. It will require all environmental claims to be substantiated with scientific evidence and independently verified, directly addressing greenwashing in the travel industry. This regulation validates our approach to verified sustainability data and creates a mandatory market for our services. Travel companies will need third-party verification for any sustainability claims, positioning Travalyst as an essential service provider. The directive could transform the competitive landscape by making verified sustainability reporting mandatory rather than voluntary.",
+                    summary: "The Green Claims Directive aims to combat greenwashing by establishing strict requirements for environmental claims made by businesses. Companies making green claims must provide scientific evidence to support their statements, undergo independent verification by accredited bodies, and use standardized methodologies for environmental impact assessment. The directive covers all sectors but has particular relevance for travel and tourism where sustainability claims are increasingly common but often unsubstantiated. It establishes penalties for misleading green claims and creates a harmonized framework across EU member states for environmental claim verification."
+                },
+                {
+                    title: "Product Environmental Footprint Category Rules (PEFCR)",
+                    docNr: "COM(2024)0089",
+                    category: "Accommodation",
+                    type: "Technical Guidance",
+                    status: "Proposal",
+                    priority: "high",
+                    lastUpdated: "25-07-2025",
+                    url: "https://eur-lex.europa.eu/",
+                    ojDate: "N/A",
+                    entryForce: "N/A",
+                    applicationDate: "N/A",
+                    currentStage: 1,
+                    impact: "PEFCR will establish the technical methodology for calculating environmental footprints across product categories, including accommodation services. This creates standardized metrics that Travalyst can implement across our platform, ensuring consistency and comparability. The rules will likely become the foundation for EU environmental reporting requirements, making early adoption crucial for competitive advantage. Our platform can help accommodation providers calculate and report their environmental footprint according to these official EU methodologies, creating a clear value proposition for compliance and transparency.",
+                    summary: "The Product Environmental Footprint Category Rules provide detailed technical guidance for calculating environmental impacts across different product and service categories. For the accommodation sector, PEFCR establishes standardized methodologies for measuring carbon footprint, water usage, waste generation, and land use impacts. The rules specify data collection requirements, calculation methods, and reporting formats to ensure consistency across the EU. PEFCR serves as the technical foundation for various EU environmental policies and is expected to become mandatory for large companies under future legislation."
+                },
+                {
+                    title: "CountEmissions EU",
+                    docNr: "COM(2023)0441",
+                    category: "Aviation",
+                    type: "Regulation",
+                    status: "Proposal",
+                    priority: "medium",
+                    lastUpdated: "25-07-2025",
+                    url: "https://eur-lex.europa.eu/legal-content/EN/PIN/?uri=CELEX:52023PC0441",
+                    ojDate: "N/A",
+                    entryForce: "N/A",
+                    applicationDate: "N/A",
+                    currentStage: 1,
+                    impact: "CountEmissions EU will mandate standardized emissions reporting for aviation, directly relevant to Travalyst's flight sustainability tracking capabilities. The regulation will require airlines to report emissions data in a standardized format, creating opportunities for our platform to aggregate and present this information to consumers. This could significantly enhance our flight comparison features by providing access to official, verified emissions data rather than relying on estimates. The regulation supports our mission of transparency in travel sustainability and could create new business opportunities in aviation sustainability reporting.",
+                    summary: "CountEmissions EU establishes a comprehensive framework for monitoring, reporting, and verifying greenhouse gas emissions from aviation activities within the EU. The regulation requires airlines to collect and report detailed emissions data using standardized methodologies, including direct emissions from fuel combustion and indirect emissions from contrail formation. The system will integrate with existing EU ETS requirements and provide granular data on per-flight emissions that can be used for consumer information and policy development. The regulation also establishes verification requirements and penalties for non-compliance."
+                },
+                {
+                    title: "Revision of the Air Services Regulation",
+                    docNr: "COM(2025)1008",
+                    category: "Aviation",
+                    type: "Regulation",
+                    status: "Consultation",
+                    priority: "low",
+                    lastUpdated: "25-07-2025",
+                    url: "https://eur-lex.europa.eu/eli/reg/2008/1008/oj/eng",
+                    ojDate: "N/A",
+                    entryForce: "N/A",
+                    applicationDate: "N/A",
+                    currentStage: 0,
+                    impact: "The revision of Air Services Regulation primarily focuses on market access and operational rights for airlines, with limited direct impact on Travalyst's core sustainability mission. However, the regulation may include new requirements for airlines to report sustainability metrics as part of their operating licenses, which could create indirect opportunities for our platform. The regulation's emphasis on transparency and consumer protection aligns with our values, but the operational impact on our business model is expected to be minimal compared to more directly relevant environmental legislation.",
+                    summary: "The revision of Regulation 1008/2008 updates the framework for air services within the EU, addressing market access rights, safety requirements, and operational standards for airlines. Key changes include updated licensing requirements for airlines, revised rules for route allocation at congested airports, and enhanced consumer protection provisions. The regulation also introduces new requirements for airlines to demonstrate financial fitness and operational capability, including potential sustainability criteria. The revision aims to modernize EU aviation law to address current market conditions and emerging challenges in the aviation sector."
+                },
+                {
+                    title: "Implementation of EASA FEL / RefuelEU Aviation",
+                    docNr: "COM(2023)2405",
+                    category: "Aviation",
+                    type: "Regulation",
+                    status: "Adopted",
+                    priority: "medium",
+                    lastUpdated: "25-07-2025",
+                    url: "https://eur-lex.europa.eu/eli/reg/2023/2405/oj/eng",
+                    ojDate: "2023-10-31",
+                    entryForce: "2024-01-01",
+                    applicationDate: "2025-01-01",
+                    currentStage: 5,
+                    impact: "RefuelEU Aviation mandates increasing use of sustainable aviation fuels (SAF), creating new metrics and reporting requirements that are highly relevant to Travalyst's aviation sustainability tracking. As airlines implement SAF blending requirements, our platform can help consumers understand the sustainability benefits of different flight options based on actual SAF usage rather than estimates. This regulation creates competitive differentiation opportunities for airlines using higher SAF percentages, which our platform can highlight to sustainability-conscious travelers. The detailed reporting requirements may also create business opportunities in helping airlines track and report their SAF compliance.",
+                    summary: "RefuelEU Aviation establishes mandatory targets for sustainable aviation fuel (SAF) uptake at EU airports, starting with 2% SAF content in 2025 and increasing to 70% by 2050. The regulation requires fuel suppliers to ensure minimum SAF percentages in aviation fuel, with specific targets for synthetic fuels. Airlines must report detailed information about their fuel usage and SAF consumption, with penalties for non-compliance. The regulation includes provisions for book-and-claim systems to optimize SAF distribution and establishes a comprehensive monitoring and reporting framework for tracking progress toward decarbonization goals."
+                },
+                {
+                    title: "Single Digital Booking and Ticketing Regulation (SDBTR)",
+                    docNr: "COM(2024)0298",
+                    category: "Rail",
+                    type: "Regulation",
+                    status: "Trilogue",
+                    priority: "high",
+                    lastUpdated: "25-07-2025",
+                    url: "https://eur-lex.europa.eu/eli/reg/2022/2065/oj/eng",
+                    ojDate: "N/A",
+                    entryForce: "N/A",
+                    applicationDate: "N/A",
+                    currentStage: 4,
+                    impact: "The SDBTR will revolutionize rail booking across Europe, creating opportunities for Travalyst to integrate comprehensive rail options into our platform. The regulation mandates interoperable booking systems and standardized sustainability reporting for rail journeys, aligning perfectly with our mission to promote sustainable travel options. This could significantly enhance our ability to present rail as a sustainable alternative to air travel, with standardized emissions data across all EU rail operators. The regulation's focus on seamless booking and transparency creates opportunities for our platform to become a central hub for sustainable rail travel planning.",
+                    summary: "The Single Digital Booking and Ticketing Regulation aims to create a seamless, integrated booking experience for rail travel across the EU. The regulation establishes technical standards for interoperability between different rail booking systems, mandatory distribution of tickets through third-party platforms, and standardized passenger information including real-time journey updates and sustainability metrics. Key provisions include open data requirements for rail operators, standardized APIs for ticket distributors, and consumer protection measures for cross-border journeys. The regulation is designed to make rail travel as easy to book as air travel while promoting modal shift toward more sustainable transport."
+                },
+                {
+                    title: "Multi-modal Digital Mobility Services Regulation (MDMS)",
+                    docNr: "COM(2024)0299",
+                    category: "Rail",
+                    type: "Regulation",
+                    status: "Proposal",
+                    priority: "medium",
+                    lastUpdated: "25-07-2025",
+                    url: "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=intcom:Ares%282022%295397025",
+                    ojDate: "N/A",
+                    entryForce: "N/A",
+                    applicationDate: "N/A",
+                    currentStage: 1,
+                    impact: "MDMS regulation supports the development of integrated mobility platforms that combine multiple transport modes, directly relevant to Travalyst's vision of promoting sustainable travel choices. The regulation will require standardized data sharing between transport operators and digital platforms, enabling our platform to provide comprehensive, comparable sustainability information across all transport modes. This creates opportunities to develop advanced journey planning tools that optimize for sustainability while maintaining convenience, potentially positioning Travalyst as a leading multi-modal sustainable travel platform in the EU market.",
+                    summary: "The Multi-modal Digital Mobility Services Regulation establishes a framework for integrated digital mobility platforms that combine different transport modes into seamless journey planning and booking experiences. The regulation requires transport operators to provide standardized data feeds including real-time availability, pricing, and sustainability metrics. Key provisions include mandatory APIs for public transport, shared mobility services, and long-distance transport, consumer protection for multi-modal journeys, and technical standards for journey planning algorithms. The regulation aims to promote sustainable transport choices by making multi-modal journeys as convenient as private car travel."
+                },
+                {
+                    title: "Amendment to Rail Passengers' Rights Regulation",
+                    docNr: "COM(2021)0782",
+                    category: "Rail",
+                    type: "Regulation",
+                    status: "Adopted",
+                    priority: "low",
+                    lastUpdated: "25-07-2025",
+                    url: "https://eur-lex.europa.eu/eli/reg/2021/782/oj/eng",
+                    ojDate: "2021-06-07",
+                    entryForce: "2021-06-27",
+                    applicationDate: "2023-06-07",
+                    currentStage: 5,
+                    impact: "The amended Rail Passengers' Rights Regulation primarily focuses on passenger compensation and information rights, with limited direct impact on Travalyst's core sustainability mission. However, the regulation's enhanced requirements for passenger information could create opportunities to include sustainability data in mandatory journey information. The regulation's emphasis on transparency and passenger rights aligns with our values of transparent sustainability information, but the business impact is expected to be minimal compared to regulations more directly focused on environmental reporting and sustainable transport promotion.",
+                    summary: "The amended Rail Passengers' Rights Regulation strengthens passenger protection for rail travel within the EU, updating compensation requirements for delays and cancellations, enhancing accessibility provisions for passengers with reduced mobility, and improving information rights throughout the journey. Key changes include increased compensation thresholds, mandatory real-time information provision, and stronger enforcement mechanisms for passenger rights violations. The regulation also introduces new requirements for rail operators to provide comprehensive journey information and establishes clearer procedures for complaint handling and dispute resolution."
+                },
+                {
+                    title: "Data Act",
+                    docNr: "COM(2023)2854",
+                    category: "Data",
+                    type: "Regulation",
+                    status: "Adopted",
+                    priority: "medium",
+                    lastUpdated: "25-07-2025",
+                    url: "https://eur-lex.europa.eu/eli/reg/2023/2854/oj/eng",
+                    ojDate: "2023-12-11",
+                    entryForce: "2024-01-11",
+                    applicationDate: "2025-09-12",
+                    currentStage: 5,
+                    impact: "The Data Act will significantly impact how Travalyst accesses and processes travel-related data, creating new opportunities for data sharing while imposing new compliance requirements. The regulation's provisions on data portability could help travelers aggregate their sustainability data across different platforms, enhancing our ability to provide comprehensive carbon footprint tracking. However, the regulation also creates new obligations for data processing and sharing, requiring updates to our privacy policies and data handling procedures. The emphasis on fair data access could level the playing field with larger competitors by ensuring access to essential travel industry data.",
+                    summary: "The Data Act establishes comprehensive rules for data access and use across the EU digital economy, focusing on unlocking the value of industrial and IoT data while protecting individual and business rights. The regulation creates new rights for users to access and port their data, establishes fair and reasonable terms for data sharing, and introduces obligations for data holders to share data in certain circumstances. Key provisions include mandatory data portability for connected products, restrictions on unfair contractual terms in data sharing agreements, and requirements for interoperability in digital services. The regulation aims to create a competitive and innovative data economy while ensuring appropriate safeguards."
+                },
+                {
+                    title: "EU Data Spaces for Tourism",
+                    docNr: "COM(2024)0156",
+                    category: "Data",
+                    type: "Communication",
+                    status: "Consultation",
+                    priority: "medium",
+                    lastUpdated: "25-07-2025",
+                    url: "https://eur-lex.europa.eu/",
+                    ojDate: "N/A",
+                    entryForce: "N/A",
+                    applicationDate: "N/A",
+                    currentStage: 0,
+                    impact: "The EU Data Spaces initiative for tourism could create significant opportunities for Travalyst to participate in standardized data sharing ecosystems focused on travel sustainability. The initiative aims to facilitate secure, controlled data sharing between tourism stakeholders, which could enhance our access to comprehensive sustainability data across the industry. Participation in EU data spaces could provide competitive advantages through access to standardized, high-quality data while also requiring compliance with new governance and technical standards. This initiative aligns well with our mission of transparency and could help establish industry-wide sustainability data standards.",
+                    summary: "The EU Data Spaces for Tourism initiative aims to create a secure, interoperable ecosystem for sharing tourism-related data across industry stakeholders while respecting privacy and commercial interests. The initiative focuses on developing technical infrastructure and governance frameworks to enable controlled data sharing for innovation, sustainability monitoring, and improved traveler experiences. Key components include standardized data formats for tourism sustainability metrics, secure data exchange protocols, and governance structures for multi-stakeholder data collaboration. The initiative is part of the broader European Data Strategy and aims to unlock innovation while maintaining European values around privacy and fair competition."
+                },
+                {
+                    title: "AI Act",
+                    docNr: "COM(2024)1689",
+                    category: "Data",
+                    type: "Regulation",
+                    status: "Adopted",
+                    priority: "high",
+                    lastUpdated: "25-07-2025",
+                    url: "https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng",
+                    ojDate: "2024-07-12",
+                    entryForce: "2024-08-01",
+                    applicationDate: "2025-08-02",
+                    currentStage: 5,
+                    impact: "The AI Act has significant implications for Travalyst's use of AI in sustainability scoring and recommendation algorithms. As our platform likely qualifies as an AI system under the regulation, we'll need to implement transparency requirements, risk assessment procedures, and algorithmic auditing processes. The regulation's emphasis on explainable AI aligns with our mission of transparency but will require technical updates to ensure our sustainability scoring methodology is fully explainable to users. Compliance will increase operational costs but could provide competitive advantages by building user trust through demonstrated AI governance and transparency.",
+                    summary: "The AI Act establishes comprehensive regulatory framework for artificial intelligence systems within the EU, using a risk-based approach to regulate AI applications across different sectors. The regulation prohibits certain high-risk AI practices, establishes strict requirements for high-risk AI systems including conformity assessments and risk management, and creates transparency obligations for AI systems that interact with humans. Key provisions include mandatory risk assessments for high-risk AI, requirements for human oversight and explainability, and specific obligations for foundation models and general-purpose AI systems. The regulation aims to ensure AI development and deployment respects fundamental rights while fostering innovation."
+                },
+                {
+                    title: "Omnibus Regulation",
+                    docNr: "COM(2025)0145",
+                    category: "Reporting",
+                    type: "Regulation",
+                    status: "Proposal",
+                    priority: "low",
+                    lastUpdated: "25-07-2025",
+                    url: "https://commission.europa.eu/publications/omnibus-i_en",
+                    ojDate: "N/A",
+                    entryForce: "N/A",
+                    applicationDate: "N/A",
+                    currentStage: 1,
+                    impact: "The Omnibus Regulation focuses on administrative procedures and reporting harmonization across EU legislation, with indirect but potentially significant impact on Travalyst's compliance requirements. The regulation may streamline sustainability reporting requirements across different pieces of legislation, potentially simplifying compliance for both Travalyst and our clients. While not directly related to our core mission, the regulation's standardization of reporting procedures could reduce administrative burden and create more consistent regulatory requirements across the travel industry. The impact will depend on specific provisions related to environmental and sustainability reporting harmonization.",
+                    summary: "The Omnibus Regulation aims to harmonize and simplify administrative procedures across multiple pieces of EU legislation, reducing regulatory fragmentation and compliance burden for businesses. The regulation standardizes reporting formats, deadlines, and procedures across different policy areas, creates common definitions for regulatory terms, and establishes unified enforcement mechanisms. Key provisions include streamlined reporting templates for cross-sectoral requirements, harmonized penalty structures, and simplified procedures for regulatory compliance across multiple directives and regulations. The regulation is part of the EU's Better Regulation initiative and aims to reduce administrative burden while maintaining regulatory effectiveness."
+                },
+                {
+                    title: "Taxonomy Regulation",
+                    docNr: "COM(2020)0852",
+                    category: "Reporting",
+                    type: "Regulation",
+                    status: "Adopted",
+                    priority: "high",
+                    lastUpdated: "25-07-2025",
+                    url: "https://eur-lex.europa.eu/eli/reg/2020/852/oj/eng",
+                    ojDate: "2020-07-22",
+                    entryForce: "2020-07-12",
+                    applicationDate: "2022-01-01",
+                    currentStage: 5,
+                    impact: "The EU Taxonomy Regulation is highly relevant to Travalyst's mission as it establishes the official EU classification system for environmentally sustainable economic activities. The regulation's technical screening criteria for transport and tourism activities provide authoritative guidance for our sustainability assessments and scoring methodologies. Companies subject to taxonomy reporting requirements will need tools to assess and report on taxonomy alignment, creating potential business opportunities for Travalyst in helping travel companies demonstrate their contribution to environmental objectives. The regulation validates our approach to science-based sustainability metrics and provides regulatory backing for our sustainability assessments.",
+                    summary: "The EU Taxonomy Regulation establishes a classification system for environmentally sustainable economic activities, providing criteria to determine whether an economic activity qualifies as environmentally sustainable. The regulation covers six environmental objectives: climate change mitigation, climate change adaptation, sustainable use and protection of water and marine resources, transition to a circular economy, pollution prevention and control, and protection and restoration of biodiversity and ecosystems. For each objective, the regulation establishes technical screening criteria that economic activities must meet to be considered taxonomy-aligned. The regulation also creates disclosure obligations for large companies and financial institutions to report on taxonomy alignment of their activities and investments."
+                }
+            ];
+
+            // Global variables
+            let currentLegislation = null;
+            let sortDirection = {};
+            let notificationSettings = {
+                email: '',
+                selectedLegislation: []
+            };
+
+            // Initialize from localStorage
+            try {
+                const stored = JSON.parse(localStorage.getItem('travalyst-notifications') || '{}');
+                notificationSettings = {
+                    email: stored.email || '',
+                    selectedLegislation: stored.selectedLegislation || []
+                };
+            } catch (e) {
+                console.warn('Failed to load notification settings from localStorage');
+            }
+
+            // Utility functions
+            function isValidEmail(email) {
+                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            }
+
+            function saveNotificationSettings() {
+                try {
+                    localStorage.setItem('travalyst-notifications', JSON.stringify(notificationSettings));
+                } catch (e) {
+                    console.warn('Failed to save notification settings to localStorage');
+                }
+            }
+
+            // Notification panel functions
+            function toggleNotificationPanel() {
+                const panel = document.getElementById('notificationPanel');
+                
+                if (panel.classList.contains('show')) {
+                    panel.classList.remove('show');
+                    document.removeEventListener('click', closeNotificationPanel);
+                } else {
+                    panel.classList.add('show');
+                    populateNotificationPanel();
+                    
+                    // Close panel when clicking outside
+                    setTimeout(() => {
+                        document.addEventListener('click', closeNotificationPanel);
+                    }, 100);
+                }
+            }
+
+            function closeNotificationPanel(event) {
+                const panel = document.getElementById('notificationPanel');
+                const bell = document.querySelector('.notification-bell');
+                
+                if (!panel.contains(event.target) && !bell.contains(event.target)) {
+                    panel.classList.remove('show');
+                    document.removeEventListener('click', closeNotificationPanel);
+                }
+            }
+
+            function populateNotificationPanel() {
+                const emailInput = document.getElementById('notificationEmail');
+                const legislationList = document.getElementById('notificationLegislationList');
+                
+                // Set email if saved
+                emailInput.value = notificationSettings.email || '';
+                
+                // Populate legislation list
+                legislationList.innerHTML = legislationData.map(item => `
+                    <div class="legislation-item">
+                        <input type="checkbox" 
+                               id="notify-${item.docNr}" 
+                               class="legislation-checkbox"
+                               ${notificationSettings.selectedLegislation.includes(item.docNr) ? 'checked' : ''}
+                               onchange="updateLegislationSelection('${item.docNr}', this.checked)">
+                        <div class="legislation-info" onclick="toggleCheckbox('notify-${item.docNr}')">
+                            <div class="legislation-title">${item.title}</div>
+                            <div class="legislation-meta">${item.docNr} • ${item.category} • ${item.status}</div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            function toggleCheckbox(checkboxId) {
+                const checkbox = document.getElementById(checkboxId);
+                if (checkbox) {
+                    checkbox.checked = !checkbox.checked;
+                    const docNr = checkboxId.replace('notify-', '');
+                    updateLegislationSelection(docNr, checkbox.checked);
+                }
+            }
+
+            function updateLegislationSelection(docNr, isSelected) {
+                if (isSelected) {
+                    if (!notificationSettings.selectedLegislation.includes(docNr)) {
+                        notificationSettings.selectedLegislation.push(docNr);
+                    }
+                } else {
+                    notificationSettings.selectedLegislation = notificationSettings.selectedLegislation.filter(id => id !== docNr);
+                }
+                
+                updateNotificationBadge();
+            }
+
+            function handleSaveNotificationSettings() {
+                const emailInput = document.getElementById('notificationEmail');
+                const email = emailInput.value.trim();
+                
+                if (notificationSettings.selectedLegislation.length > 0 && (!email || !isValidEmail(email))) {
+                    alert('Please enter a valid email address to receive notifications');
+                    emailInput.focus();
+                    return;
+                }
+                
+                notificationSettings.email = email;
+                saveNotificationSettings();
+                
+                const count = notificationSettings.selectedLegislation.length;
+                if (count > 0 && email) {
+                    alert(`Success! You'll receive email notifications for ${count} legislation${count === 1 ? '' : 's'} at ${email}`);
+                } else if (count === 0) {
+                    alert('Notification settings cleared - you will not receive any email notifications');
+                }
+                
+                // Close panel
+                document.getElementById('notificationPanel').classList.remove('show');
+                document.removeEventListener('click', closeNotificationPanel);
+                updateNotificationBadge();
+            }
+
+            function updateNotificationBadge() {
+                const badge = document.getElementById('notificationBadge');
+                const count = notificationSettings.selectedLegislation.length;
+                
+                if (count > 0) {
+                    badge.textContent = count;
+                    badge.style.display = 'flex';
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+
+            // Table rendering and filtering
+            function renderLegislationTable() {
+                const tbody = document.getElementById('legislationBody');
+                const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+                const categoryFilter = document.getElementById('categoryFilter').value;
+                const statusFilter = document.getElementById('statusFilter').value;
+
+                let filteredData = legislationData.filter(item => {
+                    const matchesSearch = !searchTerm || 
+                        item.title.toLowerCase().includes(searchTerm) ||
+                        item.docNr.toLowerCase().includes(searchTerm) ||
+                        item.category.toLowerCase().includes(searchTerm);
+                    const matchesCategory = !categoryFilter || item.category === categoryFilter;
+                    const matchesStatus = !statusFilter || item.status === statusFilter;
+                    
+                    return matchesSearch && matchesCategory && matchesStatus;
+                });
+
+                if (tbody) {
+                    tbody.innerHTML = filteredData.map(item => `
+                        <tr onclick="showDetailPage('${item.docNr}')">
+                            <td>
+                                <div><strong>${item.title}</strong></div>
+                            </td>
+                            <td>${item.docNr}</td>
+                            <td>${item.category}</td>
+                            <td>${item.type}</td>
+                            <td class="status-column"><span class="status-badge">${item.status}</span></td>
+                            <td><span class="priority-badge priority-${item.priority}">${item.priority}</span></td>
+                            <td class="date-column">${item.lastUpdated}</td>
+                        </tr>
+                    `).join('');
+                }
+            }
+
+            function setupEventListeners() {
+                const searchInput = document.getElementById('searchInput');
+                const categoryFilter = document.getElementById('categoryFilter');
+                const statusFilter = document.getElementById('statusFilter');
+
+                if (searchInput) searchInput.addEventListener('input', renderLegislationTable);
+                if (categoryFilter) categoryFilter.addEventListener('change', renderLegislationTable);
+                if (statusFilter) statusFilter.addEventListener('change', renderLegislationTable);
+            }
+
+            function sortTable(columnIndex) {
+                const table = document.getElementById('legislationTable');
+                const tbody = table.tBodies[0];
+                const rows = Array.from(tbody.rows);
+                
+                const currentDirection = sortDirection[columnIndex] || 'asc';
+                const newDirection = currentDirection === 'asc' ? 'desc' : 'asc';
+                sortDirection[columnIndex] = newDirection;
+
+                rows.sort((a, b) => {
+                    const aVal = a.cells[columnIndex].textContent.trim();
+                    const bVal = b.cells[columnIndex].textContent.trim();
+                    
+                    if (newDirection === 'asc') {
+                        return aVal.localeCompare(bVal, undefined, {numeric: true});
+                    } else {
+                        return bVal.localeCompare(aVal, undefined, {numeric: true});
+                    }
+                });
+
+                rows.forEach(row => tbody.appendChild(row));
+            }
+
+            // Detail page functions
+            function showDetailPage(docNr) {
+                currentLegislation = legislationData.find(item => item.docNr === docNr);
+                if (!currentLegislation) return;
+
+                // Hide list page, show detail page
+                document.getElementById('listPage').classList.remove('active');
+                document.getElementById('detailPage').classList.add('active');
+
+                // Populate metadata
+                document.getElementById('metadataContent').innerHTML = `
+                    <div class="metadata-item">
+                        <span class="metadata-label">Title:</span> 
+                        <a href="${currentLegislation.url}" target="_blank" style="color: #00878A;">${currentLegislation.title}</a>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Doc Nr:</span> ${currentLegislation.docNr}
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Category:</span> ${currentLegislation.category}
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Type:</span> ${currentLegislation.type}
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">OJ Publication:</span> ${currentLegislation.ojDate}
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Entry into Force:</span> ${currentLegislation.entryForce}
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Application Date:</span> ${currentLegislation.applicationDate}
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Last Updated:</span> ${currentLegislation.lastUpdated}
+                    </div>
+                `;
+
+                // Create timeline
+                createTimeline();
+
+                // Set expandable text content
+                setExpandableText('summary', currentLegislation.summary);
+                setExpandableText('impact', currentLegislation.impact);
+            }
+
+            function createTimeline() {
+                const stages = ['Consultation', 'Proposal', 'EP Committee', 'EP Plenary', 'Trilogue', 'Adopted'];
+                const timeline = document.getElementById('timeline');
+                const labels = document.getElementById('timelineLabels');
+
+                if (timeline) {
+                    timeline.innerHTML = stages.map((stage, index) => {
+                        let className = 'timeline-step';
+                        if (index < currentLegislation.currentStage) {
+                            className += ' completed';
+                        } else if (index === currentLegislation.currentStage) {
+                            className += ' current';
+                        }
+                        return `<div class="${className}">${index + 1}</div>`;
+                    }).join('');
+                }
+
+                if (labels) {
+                    labels.innerHTML = stages.map((stage, index) => {
+                        let className = 'timeline-label';
+                        if (index === currentLegislation.currentStage) {
+                            className += ' current';
+                        }
+                        return `<div class="${className}">${stage}</div>`;
+                    }).join('');
+                }
+            }
+
+            function setExpandableText(type, content) {
+                const words = content.split(' ');
+                const previewWordCount = 50;
+                
+                const container = document.getElementById(`${type}Content`);
+                if (!container) return;
+
+                if (words.length <= previewWordCount) {
+                    container.innerHTML = `<div>${content}</div>`;
+                } else {
+                    const preview = words.slice(0, previewWordCount).join(' ') + '...';
+                    const full = content;
+                    
+                    container.innerHTML = `
+                        <div class="text-preview" id="${type}Preview">${preview}</div>
+                        <div id="${type}Full" style="display: none;">${full}</div>
+                        <button class="expand-btn" id="${type}ExpandBtn" onclick="toggleText('${type}')">Show more</button>
+                    `;
+                }
+            }
+
+            function toggleText(type) {
+                const preview = document.getElementById(`${type}Preview`);
+                const full = document.getElementById(`${type}Full`);
+                const btn = document.getElementById(`${type}ExpandBtn`);
+
+                if (!preview || !full || !btn) return;
+
+                if (full.style.display === 'none' || !full.style.display) {
+                    preview.style.display = 'none';
+                    full.style.display = 'block';
+                    btn.textContent = 'Show less';
+                } else {
+                    preview.style.display = 'block';
+                    full.style.display = 'none';
+                    btn.textContent = 'Show more';
+                }
+            }
+
+            function showListPage() {
+                document.getElementById('detailPage').classList.remove('active');
+                document.getElementById('listPage').classList.add('active');
+            }
+
+            // Modal functions
+            function openModal() {
+                document.getElementById('addModal').style.display = 'block';
+            }
+
+            function closeModal() {
+                document.getElementById('addModal').style.display = 'none';
+                document.getElementById('comUrl').value = '';
+            }
+
+            function addLegislation() {
+                const url = document.getElementById('comUrl').value;
+                if (url) {
+                    alert('Legislation would be added from: ' + url + '\n\n(This is a prototype - actual implementation would parse the COM proposal and add it to the system)');
+                    closeModal();
+                } else {
+                    alert('Please enter a valid COM proposal URL');
+                }
+            }
+
+            // Export functions
+            function exportToWord() {
+                if (!currentLegislation) return;
+
+                const wordContent = `
+                    <html>
+                    <head>
+                        <meta charset="utf-8">
+                        <title>${currentLegislation.title} - Regulatory Report</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+                            h1 { color: #00878A; border-bottom: 2px solid #00878A; padding-bottom: 10px; }
+                            h2 { color: #199D6E; margin-top: 30px; }
+                            .metadata { background: #f5f5f5; padding: 15px; margin: 20px 0; }
+                            .metadata-item { margin: 5px 0; }
+                            .metadata-label { font-weight: bold; display: inline-block; width: 150px; }
+                            .timeline { margin: 20px 0; }
+                            .timeline-step { display: inline-block; margin: 5px 10px; padding: 5px 10px; background: #e1e8ed; border-radius: 5px; }
+                            .timeline-step.current { background: #00878A; color: white; }
+                            .timeline-step.completed { background: #199D6E; color: white; }
+                        </style>
+                    </head>
+                    <body>
+                        <h1>${currentLegislation.title}</h1>
+                        
+                        <div class="metadata">
+                            <h2>Legislation Metadata</h2>
+                            <div class="metadata-item"><span class="metadata-label">Document Number:</span> ${currentLegislation.docNr}</div>
+                            <div class="metadata-item"><span class="metadata-label">Category:</span> ${currentLegislation.category}</div>
+                            <div class="metadata-item"><span class="metadata-label">Type:</span> ${currentLegislation.type}</div>
+                            <div class="metadata-item"><span class="metadata-label">Status:</span> ${currentLegislation.status}</div>
+                            <div class="metadata-item"><span class="metadata-label">Impact Priority:</span> ${currentLegislation.priority}</div>
+                            <div class="metadata-item"><span class="metadata-label">OJ Publication:</span> ${currentLegislation.ojDate}</div>
+                            <div class="metadata-item"><span class="metadata-label">Entry into Force:</span> ${currentLegislation.entryForce}</div>
+                            <div class="metadata-item"><span class="metadata-label">Application Date:</span> ${currentLegislation.applicationDate}</div>
+                            <div class="metadata-item"><span class="metadata-label">Last Updated:</span> ${currentLegislation.lastUpdated}</div>
+                            <div class="metadata-item"><span class="metadata-label">Source:</span> <a href="${currentLegislation.url}">${currentLegislation.url}</a></div>
+                        </div>
+
+                        <h2>Legislative Timeline - Status</h2>
+                        <div class="timeline">
+                            ${['Consultation', 'Proposal', 'EP Committee', 'EP Plenary', 'Trilogue', 'Adopted'].map((stage, index) => {
+                                let className = 'timeline-step';
+                                if (index < currentLegislation.currentStage) className += ' completed';
+                                else if (index === currentLegislation.currentStage) className += ' current';
+                                return `<span class="${className}">${stage}</span>`;
+                            }).join('')}
+                        </div>
+
+                        <h2>Legislative Summary</h2>
+                        <p>${currentLegislation.summary}</p>
+
+                        <h2>Impact Assessment</h2>
+                        <p>${currentLegislation.impact}</p>
+
+                        <hr style="margin-top: 40px;">
+                        <p style="font-size: 12px; color: #666;">Generated by Travalyst EU Regulatory Monitor on ${new Date().toLocaleDateString()}</p>
+                    </body>
+                    </html>
+                `;
+
+                const blob = new Blob([wordContent], { type: 'application/msword' });
+                const link = document.createElement('a');
+                
+                if (link.download !== undefined) {
+                    const url = URL.createObjectURL(blob);
+                    link.setAttribute('href', url);
+                    link.setAttribute('download', `${currentLegislation.docNr}-regulatory-report.doc`);
+                    link.style.visibility = 'hidden';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
+                    alert(`Exported "${currentLegislation.title}" to Word document`);
+                } else {
+                    alert('Export not supported in this browser');
+                }
+            }
+
+            function exportToExcel() {
+                const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+                const categoryFilter = document.getElementById('categoryFilter').value;
+                const statusFilter = document.getElementById('statusFilter').value;
+
+                let filteredData = legislationData.filter(item => {
+                    const matchesSearch = !searchTerm || 
+                        item.title.toLowerCase().includes(searchTerm) ||
+                        item.docNr.toLowerCase().includes(searchTerm) ||
+                        item.category.toLowerCase().includes(searchTerm);
+                    const matchesCategory = !categoryFilter || item.category === categoryFilter;
+                    const matchesStatus = !statusFilter || item.status === statusFilter;
+                    
+                    return matchesSearch && matchesCategory && matchesStatus;
+                });
+
+                const headers = ['Title', 'Document Number', 'Category', 'Type', 'Status', 'Impact Priority', 'Last Updated', 'URL'];
+                const csvContent = [
+                    headers.join(','),
+                    ...filteredData.map(item => [
+                        `"${item.title}"`,
+                        item.docNr,
+                        item.category,
+                        item.type,
+                        item.status,
+                        item.priority,
+                        item.lastUpdated,
+                        item.url
+                    ].join(','))
+                ].join('\n');
+
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement('a');
+                
+                if (link.download !== undefined) {
+                    const url = URL.createObjectURL(blob);
+                    link.setAttribute('href', url);
+                    link.setAttribute('download', `travalyst-eu-regulations-${new Date().toISOString().split('T')[0]}.csv`);
+                    link.style.visibility = 'hidden';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
+                    alert(`Exported ${filteredData.length} regulations to Excel file`);
+                } else {
+                    alert('Export not supported in this browser');
+                }
+            }
+
+            // Initialize the page
+            function initializePage() {
+                renderLegislationTable();
+                setupEventListeners();
+                updateNotificationBadge();
+            }
+
+            // Global function assignments for onclick handlers
+            window.toggleNotificationPanel = toggleNotificationPanel;
+            window.saveNotificationSettings = handleSaveNotificationSettings;
+            window.updateLegislationSelection = updateLegislationSelection;
+            window.toggleCheckbox = toggleCheckbox;
+            window.sortTable = sortTable;
+            window.showDetailPage = showDetailPage;
+            window.showListPage = showListPage;
+            window.toggleText = toggleText;
+            window.openModal = openModal;
+            window.closeModal = closeModal;
+            window.addLegislation = addLegislation;
+            window.exportToWord = exportToWord;
+            window.exportToExcel = exportToExcel;
+
+            // Initialize when page loads
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initializePage);
+            } else {
+                initializePage();
+            }
+
+            // Close modal when clicking outside
+            window.onclick = function(event) {
+                const modal = document.getElementById('addModal');
+                if (event.target === modal) {
+                    closeModal();
+                }
+            };
+
+        })();
+    </script>
 </body>
 </html>
