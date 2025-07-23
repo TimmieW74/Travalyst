@@ -2,6 +2,7 @@
 const VALID_EMAILS = [
     'tim@lobium.ai',
     'keesjan.boonen@travalyst.org'
+    'ruveyda@lobium.ai'
 ];
 
 let isAuthenticated = false;
