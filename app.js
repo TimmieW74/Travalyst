@@ -1,7 +1,7 @@
 // Email verification and authentication
 const VALID_EMAILS = [
     'tim@lobium.ai',
-    'keesjan.boonen@travalyst.org,'
+    'keesjan.boonen@travalyst.org',
     'ruveyda@lobium.ai'
 ];
 
