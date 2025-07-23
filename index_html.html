@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EU Regulatory Monitor - Travalyst</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #FFFFFF;
+            color: rgb(13, 35, 31);
+            line-height: 1.6;
+        }
+
+        .header {
+            background: white;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #e1e8ed;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .header h1 {
+            color: rgb(13, 35, 31);
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page {
+            display: none;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .page-header {
+            background: rgb(13, 35, 31);
+            color: white;
+            padding: 2rem;
+        }
+
+        .page-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            opacity: 0.9;
+        }
+
+        .controls {
+            padding: 1.5rem 2rem;
+            background: rgba(246, 243, 234, 0.5);
+            border-bottom: 1px solid #e1e8ed;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .search-bar {
+            flex: 1;
+            min-width: 300px;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #d1d9e0;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: #00878A;
+            box-shadow: 0 0 0 3px rgba(0, 135, 138, 0.1);
+        }
+
+        .btn {
+            background: rgb(13, 35, 31);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: rgb(10, 28, 25);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .filter-select {
+            padding: 0.5rem;
+            border: 1px solid #d1d9e0;
+            border-radius: 4px;
+            background: white;
+        }
+
+        .export-btn {
+            background: #199D6E;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+
+        .export-btn:hover {
+            background: #147a59;
+        }
+
+        .legislation-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .legislation-table th {
+            background: #FFFFFF;
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 2px solid #e1e8ed;
+            font-weight: 600;
+            color: rgb(13, 35, 31);
+            position: relative;
+        }
+
+        .legislation-table th[onclick] {
+            cursor: pointer;
+        }
+
+        .legislation-table th[onclick]:hover {
+            background: #f8f9fa;
+        }
+
+        .legislation-table th[onclick]::after {
+            content: '↕';
+            position: absolute;
+            right: 8px;
+            opacity: 0.5;
+        }
+
+        .legislation-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e1e8ed;
+            vertical-align: top;
+            color: rgb(13, 35, 31);
+        }
+
+        .date-column {
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        .status-column {
+            white-space: nowrap;
+        }
+
+        .notification-btn {
+            background: none;
+            border: 1px solid #00878A;
+            color: #00878A;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .notification-btn:hover {
+            background: #00878A;
+            color: white;
+        }
+
+        .notification-btn.subscribed {
+            background: #199D6E;
+            border-color: #199D6E;
+            color: white;
+        }
+
+        .notification-btn.subscribed:hover {
+            background: #147a59;
+        }
+
+        .email-form {
+            display: none;
+            margin-top: 0.5rem;
+            padding: 0.75rem;
+            background: rgba(246, 243, 234, 0.8);
+            border: 1px solid #e1e8ed;
+            border-radius: 4px;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .email-form.show {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .email-form input {
+            width: 200px;
+            padding: 0.5rem;
+            border: 1px solid #d1d9e0;
+            border-radius: 4px;
+            margin-right: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .email-form button {
+            background: #00878A;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .email-form button:hover {
+            background: #006b6e;
+        }
+
+        .unsubscribe-link {
+            color: #666;
+            font-size: 0.7rem;
+            margin-left: 0.5rem;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .unsubscribe-link:hover {
+            color: #333;
+        }
+
+        .notification-detail {
+            margin-top: 0.5rem;
+        }
+
+        .legislation-table tr {
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .legislation-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .priority-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .priority-high {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .priority-medium {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .priority-low {
+            background: #ecfdf5;
+            color: #059669;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            background: #e1e8ed;
+            color: rgb(13, 35, 31);
+        }
+
+        /* Detail Page Styles */
+        .detail-content {
+            padding: 2rem;
+        }
+
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .back-btn {
+            background: #666666;
+        }
+
+        .export-word-btn {
+            background: #199D6E;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+
+        .export-word-btn:hover {
+            background: #147a59;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .timeline-section {
+            grid-column: 1 / -1;
+            background: rgba(246, 243, 234, 0.5);
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .timeline-section h3 {
+            color: #00878A;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .impact-section {
+            grid-column: 1 / -1;
+        }
+
+        .info-block {
+            background: rgba(246, 243, 234, 0.5);
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .info-block h3 {
+            color: #00878A;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .info-block .expandable-section h3 {
+            color: #00878A;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .metadata-item {
+            margin-bottom: 0.8rem;
+        }
+
+        .metadata-label {
+            font-weight: 600;
+            color: rgb(13, 35, 31);
+            display: inline-block;
+            width: 120px;
+        }
+
+        .timeline-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #e1e8ed;
+            margin-bottom: 2rem;
+        }
+
+        .timeline {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            margin: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #e1e8ed;
+            z-index: 1;
+        }
+
+        .timeline-step {
+            background: white;
+            border: 3px solid #e1e8ed;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        .timeline-step.completed {
+            background: #199D6E;
+            border-color: #199D6E;
+            color: white;
+        }
+
+        .timeline-step.current {
+            background: #00878A;
+            border-color: #00878A;
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 135, 138, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 135, 138, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 135, 138, 0); }
+        }
+
+        .timeline-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
+
+        .timeline-label {
+            font-size: 0.8rem;
+            text-align: center;
+            width: 80px;
+            color: rgb(13, 35, 31);
+        }
+
+        .timeline-label.current {
+            color: #00878A;
+            font-weight: 600;
+        }
+
+        .expandable-text {
+            background: rgba(246, 243, 234, 0.5);
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .expandable-text h3 {
+            color: #00878A;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .text-content {
+            line-height: 1.6;
+            color: rgb(13, 35, 31);
+        }
+
+        .text-preview {
+            display: -webkit-box;
+            -webkit-line-clamp: 5;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .expand-btn {
+            color: #00878A;
+            cursor: pointer;
+            border: none;
+            background: none;
+            text-decoration: underline;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .expand-btn:hover {
+            color: #006b6e;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 500px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: black;
+        }
+
+        .modal h3 {
+            color: #00878A;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .modal input {
+            width: 100%;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            border: 1px solid #d1d9e0;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .timeline::before {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Travalyst EU Regulatory Monitor</h1>
+    </div>
+
+    <div class="container">
+        <!-- Page 1: Legislation List -->
+        <div id="listPage" class="page active">
+            <div class="page-header">
+                <h2>EU Legislation Monitor</h2>
+                <p>Track regulatory developments affecting sustainable travel and tourism</p>
+            </div>
+            
+            <div class="controls">
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="Search legislation by keywords...">
+                </div>
+                <button class="btn" onclick="openModal()">Add Legislation</button>
+                <div class="filters">
+                    <select class="filter-select" id="categoryFilter">
+                        <option value="">All Categories</option>
+                        <option value="Tourism">Tourism</option>
+                        <option value="Accommodation">Accommodation</option>
+                        <option value="Aviation">Aviation</option>
+                        <option value="Rail">Rail</option>
+                        <option value="Data">Data</option>
+                        <option value="Reporting">Reporting</option>
+                    </select>
+                    <select class="filter-select" id="statusFilter">
+                        <option value="">All Statuses</option>
+                        <option value="Consultation">Consultation</option>
+                        <option value="Proposal">Proposal</option>
+                        <option value="EP Committee">EP Committee</option>
+                        <option value="EP Plenary">EP Plenary</option>
+                        <option value="Trilogue">Trilogue</option>
+                        <option value="Adopted">Adopted</option>
+                    </select>
+                    <button class="export-btn" onclick="exportToExcel()">📊 Export to Excel</button>
+                </div>
+            </div>
+
+            <table class="legislation-table" id="legislationTable">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Doc Nr</th>
+                        <th onclick="sortTable(2)">Category</th>
+                        <th onclick="sortTable(3)">Type</th>
+                        <th onclick="sortTable(4)">Status</th>
+                        <th onclick="sortTable(5)">Impact Priority</th>
+                        <th onclick="sortTable(6)">Last Updated</th>
+                    </tr>
+                </thead>
+                <tbody id="legislationBody">
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Page 2: Legislation Detail -->
+        <div id="detailPage" class="page">
+            <div class="detail-content">
+                <div class="detail-header">
+                    <button class="btn back-btn" onclick="showListPage()">← Back to List</button>
+                    <button class="export-word-btn" onclick="exportToWord()">📄 Export to Word</button>
+                </div>
+                
+                <div class="info-grid">
+                    <div class="info-block">
+                        <h3>Legislation Metadata</h3>
+                        <div id="metadataContent"></div>
+                    </div>
+                    
+                    <div class="info-block">
+                        <h3>Legislative Summary</h3>
+                        <div class="expandable-section">
+                            <div class="text-content" id="summaryContent">
+                                <!-- Content will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <div class="expandable-section" style="margin-top: 2rem;">
+                            <h3>Impact Assessment</h3>
+                            <div class="text-content" id="impactContent">
+                                <!-- Content will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-section">
+                    <h3>Legislative Timeline - Status</h3>
+                    <div class="timeline" id="timeline"></div>
+                    <div class="timeline-labels" id="timelineLabels"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Add Legislation -->
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3>Add New Legislation</h3>
+            <p>Paste the COM proposal URL below:</p>
+            <input type="url" id="comUrl" placeholder="https://eur-lex.europa.eu/...">
+            <br><br>
+            <button class="btn" onclick="addLegislation()">Add Legislation</button>
+            <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
