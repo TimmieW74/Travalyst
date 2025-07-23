@@ -1,3 +1,83 @@
+// Email verification and authentication
+const VALID_EMAILS = [
+    'tim@lobium.ai',
+    'keesjan.boonen@travalyst.org'
+];
+
+let isAuthenticated = false;
+
+// Check if user is already authenticated
+function checkAuthentication() {
+    const storedEmail = localStorage.getItem('travalyst-auth-email');
+    const authTimestamp = localStorage.getItem('travalyst-auth-timestamp');
+    
+    // Check if authentication is still valid (24 hours)
+    if (storedEmail && authTimestamp) {
+        const twentyFourHours = 24 * 60 * 60 * 1000;
+        const isStillValid = (Date.now() - parseInt(authTimestamp)) < twentyFourHours;
+        
+        if (isStillValid && VALID_EMAILS.includes(storedEmail.toLowerCase())) {
+            isAuthenticated = true;
+            showMainApp();
+            return;
+        } else {
+            // Clear expired authentication
+            localStorage.removeItem('travalyst-auth-email');
+            localStorage.removeItem('travalyst-auth-timestamp');
+        }
+    }
+    
+    // Show login gate if not authenticated
+    showLoginGate();
+}
+
+function showLoginGate() {
+    document.getElementById('loginGate').style.display = 'flex';
+    document.getElementById('mainApp').style.display = 'none';
+}
+
+function showMainApp() {
+    document.getElementById('loginGate').style.display = 'none';
+    document.getElementById('mainApp').style.display = 'block';
+    isAuthenticated = true;
+    
+    // Initialize the main application
+    initializePage();
+}
+
+function handleLogin(event) {
+    event.preventDefault();
+    
+    const emailInput = document.getElementById('emailInput');
+    const email = emailInput.value.trim().toLowerCase();
+    const errorMessage = document.getElementById('errorMessage');
+    
+    if (VALID_EMAILS.includes(email)) {
+        // Store authentication
+        localStorage.setItem('travalyst-auth-email', email);
+        localStorage.setItem('travalyst-auth-timestamp', Date.now().toString());
+        
+        // Show success and transition to main app
+        errorMessage.style.display = 'none';
+        showMainApp();
+    } else {
+        // Show error message
+        errorMessage.style.display = 'block';
+        emailInput.value = '';
+        emailInput.focus();
+    }
+}
+
+function logout() {
+    // Clear authentication
+    localStorage.removeItem('travalyst-auth-email');
+    localStorage.removeItem('travalyst-auth-timestamp');
+    isAuthenticated = false;
+    
+    // Show login gate
+    showLoginGate();
+}
+
 // Sample legislation data
 const legislationData = [
     {
@@ -509,4 +589,13 @@ function isValidEmail(email) {
 }
 
 // Initialize the page when DOM is loaded
-document.addEventListener('DOMContentLoaded', initializePage);
+document.addEventListener('DOMContentLoaded', function() {
+    // Set up login form handler
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', handleLogin);
+    }
+    
+    // Check authentication status first
+    checkAuthentication();
+});
