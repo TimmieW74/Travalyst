@@ -910,7 +910,8 @@
         (function() {
             'use strict';
 
-            // Sample legislation data
+        // Sample legislation data (moved to global scope)
+        const legislationData = [
             const legislationData = [
                 {
                     title: "EU draft Sustainable Tourism Strategy",
@@ -1152,26 +1153,26 @@
                     impact: "The EU Taxonomy Regulation is highly relevant to Travalyst's mission as it establishes the official EU classification system for environmentally sustainable economic activities. The regulation's technical screening criteria for transport and tourism activities provide authoritative guidance for our sustainability assessments and scoring methodologies. Companies subject to taxonomy reporting requirements will need tools to assess and report on taxonomy alignment, creating potential business opportunities for Travalyst in helping travel companies demonstrate their contribution to environmental objectives. The regulation validates our approach to science-based sustainability metrics and provides regulatory backing for our sustainability assessments.",
                     summary: "The EU Taxonomy Regulation establishes a classification system for environmentally sustainable economic activities, providing criteria to determine whether an economic activity qualifies as environmentally sustainable. The regulation covers six environmental objectives: climate change mitigation, climate change adaptation, sustainable use and protection of water and marine resources, transition to a circular economy, pollution prevention and control, and protection and restoration of biodiversity and ecosystems. For each objective, the regulation establishes technical screening criteria that economic activities must meet to be considered taxonomy-aligned. The regulation also creates disclosure obligations for large companies and financial institutions to report on taxonomy alignment of their activities and investments."
                 }
-            ];
+        ];
 
-            // Global variables
-            let currentLegislation = null;
-            let sortDirection = {};
-            let notificationSettings = {
-                email: '',
-                selectedLegislation: []
+        // Global variables
+        let currentLegislation = null;
+        let sortDirection = {};
+        let notificationSettings = {
+            email: '',
+            selectedLegislation: []
+        };
+
+        // Initialize from localStorage
+        try {
+            const stored = JSON.parse(localStorage.getItem('travalyst-notifications') || '{}');
+            notificationSettings = {
+                email: stored.email || '',
+                selectedLegislation: stored.selectedLegislation || []
             };
-
-            // Initialize from localStorage
-            try {
-                const stored = JSON.parse(localStorage.getItem('travalyst-notifications') || '{}');
-                notificationSettings = {
-                    email: stored.email || '',
-                    selectedLegislation: stored.selectedLegislation || []
-                };
-            } catch (e) {
-                console.warn('Failed to load notification settings from localStorage');
-            }
+        } catch (e) {
+            console.warn('Failed to load notification settings from localStorage');
+        }
 
             // Utility functions
             function isValidEmail(email) {
